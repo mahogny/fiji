@@ -2072,6 +2072,13 @@ static int start_ij(void)
 		string_release(buffer);
 	}
 
+#ifdef __linux__
+	if(getenv("LD_LIBRARY_PATH") != NULL) {
+		string_append_path_list(java_library_path, ":");
+		string_append_path_list(java_library_path, getenv("LD_LIBRARY_PATH"));
+	}
+#endif
+
 	library_base_path = string_copy(fiji_path("lib"));
 	detect_library_path(java_library_path, library_base_path);
 	string_release(library_base_path);
